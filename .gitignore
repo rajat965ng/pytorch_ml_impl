@@ -1,0 +1,7 @@
+.DS_Store
+.idea/
+**/*.vocab
+**/*.model
+**/*.pt
+**/*.txt
+**/__pycache__
