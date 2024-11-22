@@ -1,0 +1,141 @@
+graph TB
+    %% Tech Stack
+    subgraph "Technology Stack"
+        TS1[Spring AI]
+        TS2[Langchain4j]
+        TS3[Qute Engine]
+        TS4[Opentelemetry]
+        TS5[Jaeger]
+    end
+
+    %% Client Layer
+    subgraph "Client Interface"
+        UI[Web UI]
+        CLI[CLI]
+    end
+
+    %% Global Services
+    subgraph "Global Services"
+        OBS[Observability Service]
+        AUTH[Auth Service]
+    end
+
+    %% Core Services
+    subgraph "Core Services"
+        subgraph "1. Ambassador Service"
+            MS1[Ambassador API]
+            MS1_A[Chat Config & Memory]
+            MS1_B[AI Method Declaration]
+            MS1_C[Parameter Management]
+            MS1_D[Context Management]
+            MS1_E[Tool Configuration]
+            MS1_F[Doc Retrieval Interface]
+        end
+
+        subgraph "2. Agent Service"
+            MS2[Agent API]
+            MS2_A[Agent Implementation]
+            MS2_B[Tool Declaration]
+            MS2_C[Access Control]
+            MS2_D[Execution Models]
+        end
+
+        subgraph "3. Doc Embedding Service"
+            MS3[Embedding API]
+            MS3_A[Ingestion Process]
+            MS3_B[Document Splitter]
+            MS3_C[RAG Implementation]
+        end
+
+        subgraph "4. Prompt Service"
+            MS4[Prompt API]
+            MS4_A[Few-Shot Techniques]
+            MS4_B[Action Sequencing]
+            MS4_C[JSON Format Control]
+            MS4_D[Domain Vocabulary]
+            MS4_E[AI Role Management]
+        end
+
+        subgraph "5. Prompt Gen Service"
+            MS5[Generator API]
+            MS5_A[Template Extensions]
+            MS5_B[Dynamic Variables]
+        end
+
+        subgraph "6. Guardrails Service"
+            MS6[Guardrails API]
+            MS6_A[Input Validation]
+            MS6_B[Output Validation]
+            MS6_C[Custom Guardrails]
+            MS6_D[Hallucination Detection]
+            MS6_E[Output Rewriting]
+        end
+
+        subgraph "7. Web Search Service"
+            MS7[Search API]
+            MS7_A[API Integration]
+            MS7_B[Bank Service Calls]
+        end
+    end
+
+    %% Storage Layer
+    subgraph "Vector Stores"
+        PG[PgVector]
+        IP[In-Process Store]
+        CSV[CSV Store]
+        RD[Redis Store]
+    end
+
+    %% LLM Layer
+    subgraph "LLM Providers"
+        OAPI[OpenAI]
+        HF[HuggingFace]
+        OL[Ollama]
+        MA[Mistral AI]
+    end
+
+    %% Tech Stack Connections
+    TS1 -.-> MS1 & MS2 & MS3 & MS4
+    TS2 -.-> MS1 & MS2 & MS3
+    TS3 -.-> MS5
+    TS4 -.-> OBS
+    TS5 -.-> OBS
+
+    %% Regular Connections
+    UI & CLI --> MS1
+    OBS --> MS1 & MS2 & MS3 & MS4 & MS5 & MS6 & MS7
+    AUTH --> MS1 & MS2 & MS3 & MS4 & MS5 & MS6 & MS7
+
+    %% Core Service Connections
+    MS1 --> MS2 & MS3 & MS4 & MS5 & MS6 & MS7
+    MS3 --> PG & IP & CSV & RD
+    MS1 --> OAPI & HF & OL & MA
+    MS2 --> MS7
+    MS6 --> MS3
+    MS5 --> MS4
+
+    %% Internal Service Connections
+    MS1 --> MS1_A & MS1_B & MS1_C & MS1_D & MS1_E & MS1_F
+    MS2 --> MS2_A & MS2_B & MS2_C & MS2_D
+    MS3 --> MS3_A & MS3_B & MS3_C
+    MS4 --> MS4_A & MS4_B & MS4_C & MS4_D & MS4_E
+    MS5 --> MS5_A & MS5_B
+    MS6 --> MS6_A & MS6_B & MS6_C & MS6_D & MS6_E
+    MS7 --> MS7_A & MS7_B
+
+    %% Styling
+    classDef global fill:#f99,stroke:#333,stroke-width:2px
+    classDef client fill:#fff,stroke:#333,stroke-width:2px
+    classDef core fill:#f9f,stroke:#333,stroke-width:2px
+    classDef storage fill:#99f,stroke:#333,stroke-width:2px
+    classDef llm fill:#9f9,stroke:#333,stroke-width:2px
+    classDef component fill:#fff,stroke:#666,stroke-width:1px
+    classDef tech fill:#ff9,stroke:#333,stroke-width:2px
+
+    class OBS,AUTH global
+    class UI,CLI client
+    class MS1,MS2,MS3,MS4,MS5,MS6,MS7 core
+    class PG,IP,CSV,RD storage
+    class OAPI,HF,OL,MA llm
+    class TS1,TS2,TS3,TS4,TS5 tech
+    class MS1_A,MS1_B,MS1_C,MS1_D,MS1_E,MS1_F,MS2_A,MS2_B,MS2_C,MS2_D,MS3_A,MS3_B,MS3_C,MS4_A,MS4_B,MS4_C,MS4_D,MS4_E,MS5_A,MS5_B,MS6_A,MS6_B,MS6_C,MS6_D,MS6_E,MS7_A,MS7_B component
